@@ -1,0 +1,355 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/tailwind.css' %}">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+	<title>Profile - {{user_profile.user.username}}</title>
+   <!-- <link rel="icon" href="images/fav.png" type="image/png" sizes="16x16"> -->
+
+    <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/color.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<style>
+.header-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+  margin-left: 15px;
+}
+</style>
+<body>
+	<header class="fixed-header">
+                <div class="header_inner">
+                    <form action="/search" method="POST">
+                    {% csrf_token %}
+                    <div class="left-side">
+
+
+                        <!--<div class="triger" uk-toggle="target: #wrapper ; cls: sidebar-active">
+                            <i class="uil-bars"></i>
+                        </div>-->
+
+<!--                        <div class="header_search">-->
+                            <input type="text" name="username" placeholder="Search for username..">&nbsp;&nbsp;&nbsp;
+                            <button type="submit"><i class="fa fa-search fa-1x"></i></button>
+<!--                        </div>-->
+
+                    </div>
+                    </form>
+                    <div class="middle" style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                        <b><h1 style="margin: 0; font-size: 24px;">&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;  &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;<a href="/"> PrivateSocialNetwork</a></h1></b>
+                    </div>
+                    <div class="right-side lg:pr-4">
+                          <!-- welcome user -->
+                        <a href="/profile/{{user.username}}" class="">
+                            Welcome <b name="" class="">{{user.username}}&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;</b>
+                        </a>
+
+                         <!-- upload -->
+                        <a href="#"
+                            class="bg-pink-500 flex font-bold hidden hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white">
+                            <ion-icon name="add-circle" class="-mb-1
+                             mr-1 opacity-90 text-xl uilus-circle"></ion-icon> Upload Post
+                        </a>
+                         <!-- upload dropdown box -->
+                        <div uk-dropdown="pos: top-right;mode:click ; animation: uk-animation-slide-bottom-small" class="header_dropdown">
+
+                            <!-- notivication header -->
+                            <div class="px-4 py-3 -mx-5 -mt-4 mb-5 border-b">
+                                <h4>Upload Pics or Videos</h4>
+                            </div>
+
+                            <!-- notification contents -->
+
+                            <div class="flex justify-center flex-center text-center">
+
+                                <div class="flex flex-col choose-upload text-center">
+
+                                    <div class="bg-gray-100 border-2 border-dashed flex flex-col h-24 items-center justify-center relative w-full rounded-lg  ">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12">
+                                            <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
+                                            <path d="M9 13h2v5a1 1 0 11-2 0v-5z" />
+                                        </svg>
+                                    </div>
+
+                                    <form action="upload" method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <p class="my-3 leading-6"> Upload Buying Post <br>
+                                    </p>
+                                    <div>
+                                        <input type="file" name="image_upload">
+<!--                                        <a href="#" class="button soft-warning small"> Choose file</a>-->
+                                        <textarea class="button soft-warning small" name="caption" placeholder="caption here"></textarea>
+                                        <br>
+                                        <button class="button soft-bg-blue-700" type="submit">Upload</button>
+                                    </div>
+                                    </form>
+
+<!--                                    <a href="#" class="uk-text-muted mt-3 uk-link"-->
+<!--                                        uk-toggle="target: .choose-upload ;  animation: uk-animation-slide-right-small, uk-animation-slide-left-medium; queued: true">-->
+<!--                                        Or Import Video </a>-->
+                                </div>
+
+                                <div class="uk-flex uk-flex-column choose-upload" hidden>
+                                    <div class="mx-auto flex flex-col h-24 items-center justify-center relative w-full rounded-lg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12">
+                                            <path fill-rule="evenodd" d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <p class="my-3 leading-6"> Import videos from YouTube <br> Copy / Paste your video link here </p>
+                                    <form class="uk-grid-small" uk-grid>
+                                        <div class="uk-width-expand">
+                                            <input type="text" class="uk-input uk-form-small  bg-gray-200 " style="box-shadow:none" placeholder="Paste link">
+                                        </div>
+                                        <div class="uk-width-auto"> <button type="submit" class="button soft-warning -ml-2">
+                                                Import </button> </div>
+                                    </form>
+                                    <a href="#" class="uk-text-muted mt-3 uk-link"
+                                        uk-toggle="target: .choose-upload ; animation: uk-animation-slide-left-small, uk-animation-slide-right-medium; queued: true">
+                                        Or Upload Video </a>
+                                </div>
+
+                            </div>
+                            <div class="px-4 py-3 -mx-5 -mb-4 mt-5 border-t text-sm">
+                                Your Video size Must be Maxmium 999MB
+                            </div>
+                        </div>
+
+                         <!-- Notification -->
+
+                        <a href="#" class="header-links-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none"><path d="M12 22a2.02 2.02 0 0 1-2.01-2h4a2.02 2.02 0 0 1-.15.78a2.042 2.042 0 0 1-1.44 1.18h-.047A1.922 1.922 0 0 1 12 22zm8-3H4v-2l2-1v-5.5a8.065 8.065 0 0 1 .924-4.06A4.654 4.654 0 0 1 10 4.18V2h4v2.18c2.579.614 4 2.858 4 6.32V16l2 1v2z" fill="currentColor"/></g></svg>
+                        </a>
+                        <div uk-drop="mode: click;offset: 4" class="header_dropdown">
+                            <h4
+                                class="-mt-5 -mx-5 bg-gradient-to-t from-gray-100 to-gray-50 border-b font-bold px-6 py-3">
+                                Notification </h4>
+                            <ul class="dropdown_scrollbar" data-simplebar>
+                                <li>
+                                    <a href="#">
+                                        <div class="drop_avatar"> <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}" alt="">
+                                        </div>
+                                        <div class="drop_content">
+                                            <p> <strong class="text-link" >Taiye</strong>
+                                                <span class="text-link"> is following you  </span>
+                                            </p>
+                                            <span class="time-ago"> 2 hours ago </span>
+                                        </div>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+                            <a href="#" class="see-all">See all</a>
+                        </div>
+
+                        <!-- Messages -->
+
+                        <a href="#" class="header-links-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="0.5em" height="0.5em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><g fill="currentColor"><path d="M2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/></g></svg>
+                        </a>
+                        <div uk-drop="mode: click;offset: 4" class="header_dropdown">
+                             <h4
+                                class="-mt-5 -mx-5 bg-gradient-to-t from-gray-100 to-gray-50 border-b font-bold px-6 py-3">
+                                <a href="/inbox">Messages:</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                 <a href="/send_message" class="send_message">Send Message</a> </h4>
+
+                            <ul class="dropdown_scrollbar" data-simplebar>
+                                {% for message in messages %}
+                                <li>
+                                    <a href="/profile/{{message.sender.username}}">
+                                        <div class="drop_avatar"> <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}" alt="">
+                                        </div>
+                                        <div class="drop_content">
+                                            <strong> {{ message.sender.username }} </strong> <time> {{ message.timestamp }}</time>
+                                            <p> {{ message.content }} </p>
+                                            <hr>
+                                          {% empty %}
+                                            <br>
+                                            <h4 class="-mt-5 -mx-5 bg-gradient-to-t from-gray-100 to-gray-50 border-b font-bold px-6 py-3">No messages in your inbox.</h4>
+
+                                        </div>
+                                    </a>
+                                </li>
+                                {% endfor %}
+
+                            </ul>
+                        </div>
+
+                        <!-- profile -->
+
+                        <a href="#">
+                            <img src="{{user_profile.profile_img.url}}" class="header-avatar" alt="">
+             <!--שינוי בשורה מעל^:       אחרי ששלחתי בפונקציית האינדקס (בקובץ וויוז) את היוזר פרופיל אני יכול לייבא את התמונה מהפרופיל, עם תוספת של יו-אר-אל כדי לטעון את התמונה בעמוד -->
+                        </a>
+                        <div uk-drop="mode: click;offset:9" class="header_dropdown profile_dropdown border-t">
+                            <ul>
+                                <li><a href="/setting"> Account setting </a> </li>
+                                <li><a href="explore.html">explore </a> </li>
+                                <li><a href="#"> Help </a> </li>
+                                <li><a href="logout"> Log Out</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </header>
+
+	<!--<div class="se-pre-con"></div>-->
+	<div class="theme-layout">
+
+		</div>
+
+		<section>
+				<div class="feature-photo">
+					<figure><img src="{% static 'images/resources/timeline-1.jpg' %}" alt=""></figure>
+					<form action="/follow" method="POST">
+						{% csrf_token %}
+						<div class="add-btn">
+						<span style="color: white; font-size: 27px; margin-right: 520px;"><b><u><a href="/">Home</a></u></b></span>
+
+						{% if user_post_len == 0 %}
+						<span style="color: white; font-size: 27px;"><b>No Post</b></span>
+						{% elif user_post_len == 1 %}
+						<span style="color: white; font-size: 27px;"><b>1 Post</b></span>
+						{% else %}
+						<span style="color: white; font-size: 27px;"><b>{{user_post_len}} Posts</b></span>
+						{% endif %}
+
+
+
+
+						{% if user_followers == 0 or user_followers == 1 %}
+						<span style="color: white; font-size: 27px;"><b>{{user_followers}} follower</b></span>
+						{% else %}
+						<span style="color: white; font-size: 27px;"><b>{{user_followers}} followers</b></span>
+						{% endif %}
+
+						<span style="color: white; font-size: 27px;"><b>{{user_following}} following</b></span>
+
+						<input type="hidden" value="{{user.username}}" name="follower" />
+						<input type="hidden" value="{{user_object.username}}" name="user" />
+
+						{% if user_object.username == user.username %}
+						<a href="/setting" data-ripple="">Account Settings</a>
+						{% else %}
+						<a data-ripple=""><button type="submit" style="background-color: #ffc0cb; border: #ffc0cb;">{{button_text}}</button></a>
+						{% endif %}
+
+
+						</div>
+					</form>
+
+					<!-- <form class="edit-phto">
+						<i class="fa fa-camera-retro"></i>
+						<label class="fileContainer">
+							Upload Cover Photo
+						<input type="file"/>
+						</label>
+					</form> -->
+					<div class="container-fluid">
+						<div class="row merged">
+							<div class="col-lg-2 col-sm-3">
+								<div class="user-avatar">
+									<figure>
+										<img src="{{user_profile.profile_img.url}}" style="height: 250px; width: 100%;" alt="">
+										<form class="edit-phto">
+											<i class="fa fa-camera-retro"></i>
+											<label class="fileContainer">
+												<a href="/setting">Upload Profile Photo</a>
+											</label>
+										</form>
+									</figure>
+								</div>
+							</div>
+							<div class="col-lg-10 col-sm-9">
+								<div class="timeline-info">
+									<ul>
+										<li class="admin-name">
+										  <h5 style="color: black;white-space: nowrap; width: 110px; font-size: 27px;"><b>@{{user_profile.user.username}}</b><!--<i class="fa fa-check-circle" style="color: #48dbfb;" aria-hidden="true"></i>--></h5>
+										  <!--<span>Group Admin</span>-->
+										</li>
+										<!--<li>
+											<a class="" href="javascript:void(0)" title="" data-ripple="">Go live!</a>
+											<a class="" href="javascript:void(0)" title="" data-ripple="">Music</a>
+											<a class="" href="emporium/index-3.html" title="" data-ripple="">Emporium</a>
+											<a class="" href="fitness/index.html" title="" data-ripple="">Health Inspection</a>
+											<a class="" href="settings/account-setting.html" title="" data-ripple="">Settings</a>
+											<a class="" href="javascript:void(0)" title="" data-ripple="">Upload</a>
+											<a class="" href="time-line.html" title="" data-ripple="">time line</a>
+											<a class="" href="timeline-photos.html" title="" data-ripple="">Photos</a>
+											<a class="" href="timeline-videos.html" title="" data-ripple="">Videos</a>
+											<a class="" href="timeline-friends.html" title="" data-ripple="">Friends</a>
+											<a class="" href="timeline-groups.html" title="" data-ripple="">Groups</a>
+											<a class="" href="about.html" title="" data-ripple="">about</a>
+											<a class="" href="#" title="" data-ripple="">more</a>
+
+										</li>-->
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section><!-- top area -->
+			<section>
+				<div style="font-size: 22px" class="bio">
+					<strong style="font-size: 24px">Bio: </strong> {{user_profile.bio}}
+				</div>
+			</section>
+            <section>
+            <div class="gap gray-bg">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h1 style="text-align: center; font-size: 24px; font-weight: bold;">Posts</h1>
+                            <div class="central-meta">
+                                <ul class="photos">
+                                    <!-- Post section -->
+                                    {% for post in user_posts %}
+                                    <li>
+                                        <a class="strip" href="{{post.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+                                            <img src="{{post.image.url}}" style="height: 250px; width: 300px;" alt="">
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                <!--<div class="lodmore"><button class="btn-view btn-load-more"></button></div>-->
+                            </div><!-- central-meta -->
+                        </div><!-- col-lg-6 -->
+
+
+                    </div><!-- row -->
+                </div><!-- container-fluid -->
+            </div><!-- gap gray-bg -->
+        </section>
+
+
+
+
+
+
+
+
+		<script data-cfasync="false" src="{% static '../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js' %}"></script><script src="{% static 'js/main.min.js' %}"></script>
+		<script src="{% static 'js/script.js' %}"></script>
+
+</body>	
+
+
+</html>
