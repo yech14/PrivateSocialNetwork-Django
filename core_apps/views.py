@@ -119,36 +119,6 @@ def search(request):
 
 
 @login_required(login_url='signin')
-def auction_detail(request, auction_id):
-    auction_item = AuctionItem.objects.filter(id=auction_id).last()
-    comments = Comment.objects.filter(auction_item=auction_item)
-
-    if request.method == 'POST':
-        if 'bid_amount' in request.POST:
-            bid_amount = request.POST['bid_amount']
-            if float(bid_amount) > auction_item.current_bid:
-                auction_item.current_bid = bid_amount
-                auction_item.save()
-                return redirect('auction_detail', auction_id=auction_id)
-        if 'text' in request.POST:
-            comment_form = CommentForm(request.POST)
-            if comment_form.is_valid():
-                comment = comment_form.save(commit=False)
-                comment.auction_item = auction_item
-                comment.commenter = request.user.profile  # Assign the Profile instance
-                comment.commenter_user = request.user  # Associate with the commenter's user object
-                comment.save()
-                return redirect('auction_detail', auction_id=auction_id)
-    else:
-        comment_form = CommentForm()
-
-    return render(request, 'auction_detail.html', {
-        'auction_item': auction_item,
-        'comments': comments,
-        'comment_form': comment_form
-    })
-
-@login_required(login_url='signin')
 def post_detail(request, post_id):
     post = Post.objects.filter(id=post_id)
     comments = post.comments.all()
